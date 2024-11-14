@@ -1,0 +1,518 @@
+openapi: 3.0.0
+info:
+  description: API para la gestión de las diferentes vistas de contenido a las que
+    accederá un usuario
+  title: Microservicio de Vistas de una aplicación de tipo Netflix
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Hace referencia al conjunto de listas de contenido que se mostraran
+    en la aplicacion segun un filtro o una cualidad determinada y estarán disponibles
+    para el usuario
+  name: vista
+paths:
+  /vista:
+    get:
+      description: Retorna todas las listas de contenidos
+      operationId: get_all_vista
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Vista'
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Vista'
+                type: array
+          description: Catalogo de vistas recuperado con éxito
+        "500":
+          description: Error del servidor
+      summary: Obtener el catalogo de las todas las listas de contenido de la aplicacion
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+    post:
+      description: Crea una nueva vista
+      operationId: add_vista
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vista'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Vista'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vista'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vista'
+          description: Vista creada exitosamente
+        "400":
+          description: Solicitud incorrecta
+        "422":
+          description: Excepción en la validación
+        "500":
+          description: Error del servidor
+      summary: Crear una nueva vista
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+  /vista/{idVista}:
+    delete:
+      description: Elimina una vista del sistema segun su identificador
+      operationId: delete_vista
+      parameters:
+      - description: Id de la vista que se va a eliminar
+        explode: false
+        in: path
+        name: idVista
+        required: true
+        schema:
+          format: inte64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Vista eliminada exitosamente
+        "400":
+          description: ID proporcionado inválido
+        "404":
+          description: Vista no encontrado
+        "500":
+          description: Error del servidor
+      summary: Eliminar una vista específica por su id
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+    get:
+      description: Retorna una vista en concreto recibiendo como input su id
+      operationId: get_vista_by_id
+      parameters:
+      - description: Id de la vista que se quiere recuperar
+        explode: false
+        in: path
+        name: idVista
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vista'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vista'
+          description: Detalles de la vista recuperados con éxito
+        "400":
+          description: Id no válido
+        "404":
+          description: Vista no encontrada
+        "500":
+          description: Error del servidor
+      summary: Obtener una vista específica por su id
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+    put:
+      description: Actualiza una vista en el sistema
+      operationId: updatevista
+      parameters:
+      - description: Id de la vista que se va a actualizar
+        explode: false
+        in: path
+        name: idVista
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vista'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vista'
+          description: Vista actualizada exitosamente
+        "400":
+          description: ID no válido
+        "404":
+          description: Vista no encontrada
+        "422":
+          description: Validation exception
+        "500":
+          description: Error del servidor
+      summary: Actualizar una vista específica por su identificador
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+  /vista/{idVista}/contenidos:
+    get:
+      description: Retorna el conjunto de contenidos multimedia favoritos de la vista
+        en función de su identificador
+      operationId: get_contenidos_vista
+      parameters:
+      - description: Id de la vista que se quiere recuperar
+        explode: false
+        in: path
+        name: idVista
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Contenido'
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Contenido'
+                type: array
+          description: Se ha obtenido exitosamente el listado de favoritos
+        "400":
+          description: ID proporcionado inválido
+        "404":
+          description: Perfil no encontrado
+        "500":
+          description: Error del servidor
+      summary: Obtener el listado de contenidos multimedia de la vista
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+  /vista/{nombreVista}:
+    delete:
+      description: Elimina una vista del sistema segun su nombre
+      operationId: delete_vista_by_nombre
+      parameters:
+      - description: nombre de la vista que se va a eliminar
+        explode: false
+        in: path
+        name: nombreVista
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Vista eliminada exitosamente
+        "400":
+          description: nombre no válido
+        "404":
+          description: Vista no encontrado
+        "500":
+          description: Error del servidor
+      summary: Eliminar una vista específica por su nombre
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+    get:
+      description: Retorna una vista en concreto recibiendo como input su nombre
+      operationId: get_vista_by_nombre
+      parameters:
+      - description: nombre de la vista que se va a recuperar
+        explode: false
+        in: path
+        name: nombreVista
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vista'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vista'
+          description: Detalles de la vista recuperados con éxito
+        "400":
+          description: nombre no válido
+        "404":
+          description: Vista no encontrada
+        "500":
+          description: Error del servidor
+      summary: Obtener una vista específica por su nombre
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+    put:
+      description: Actualiza una vista en el sistema
+      operationId: update_vista_by_nombre
+      parameters:
+      - description: nombre de la vista que se va a actualizar
+        explode: false
+        in: path
+        name: nombreVista
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vista'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vista'
+          description: Vista actualizada exitosamente
+        "400":
+          description: Nombre no válido
+        "404":
+          description: Vista no encontrado
+        "422":
+          description: Validation exception
+      summary: Actualizar una vista específica por su nombre
+      tags:
+      - vista
+      x-openapi-router-controller: openapi_server.controllers.vista_controller
+components:
+  schemas:
+    Vista:
+      example:
+        listaContenidos:
+        - 0
+        - 0
+        idVista: 10
+        nombreVista: tipoContenido
+      properties:
+        idVista:
+          description: Identificador único de la vista
+          example: 10
+          title: idVista
+          type: integer
+        nombreVista:
+          description: Nombre de la vista
+          enum:
+          - tipoContenido
+          - genero
+          - novedades
+          - topDiario
+          - favoritos
+          title: nombreVista
+          type: string
+        listaContenidos:
+          description: Representa la lista de contenidos multimedia perteneciente
+            a esta vista. Este array almacenará únicamente el identificador de dichos
+            contenidos con el fin de simplificar y facilitar la implementación de
+            la aplicación.
+          items:
+            description: Identificador del contenido multimedia perteneciente a la
+              vista
+            type: integer
+          title: listaContenidos
+          type: array
+      title: Vista
+      type: object
+    Contenido:
+      example:
+        tipo: serie
+        temporadas:
+        - episodios:
+          - tituloEpisodio: Celebration
+            numeroEpisodio: 5
+            duracionEpisodio: 60
+          - tituloEpisodio: Celebration
+            numeroEpisodio: 5
+            duracionEpisodio: 60
+          numeroTemporada: 1
+        - episodios:
+          - tituloEpisodio: Celebration
+            numeroEpisodio: 5
+            duracionEpisodio: 60
+          - tituloEpisodio: Celebration
+            numeroEpisodio: 5
+            duracionEpisodio: 60
+          numeroTemporada: 1
+        idContenido: 10
+        director: Mark Mylod
+        elenco: "Brian Cox, Jeremy Strong, Sarah Snook, Kieran Culkin, Hiam Abbass"
+        genero: drama
+        titulo: Succession
+        duracion: 120
+        imagen:
+        - imagen
+        - imagen
+        sinopsis: Familia de ricos
+      properties:
+        idContenido:
+          description: Identificador único del contenido
+          example: 10
+          title: idContenido
+          type: integer
+        titulo:
+          description: Nombre del contenido
+          example: Succession
+          title: titulo
+          type: string
+        tipo:
+          description: "Categoría multimedia a la cual pertenece el contenido (Pelí\
+            cula, documental, serie…)"
+          enum:
+          - serie
+          - pelicula
+          - corto
+          - documental
+          example: serie
+          title: tipo
+          type: string
+        sinopsis:
+          description: Resumen general e información referente al contenido
+          example: Familia de ricos
+          title: sinopsis
+          type: string
+        duracion:
+          description: Intervalo de tiempo en minutos que transcurre entre el comienzo
+            y el fin del contenido
+          example: 120
+          title: duracion
+          type: integer
+        temporadas:
+          description: "Conjunto de temporadas que conforman la serie (solo en el\
+            \ caso de que el contenido sea de tipo serie. Si el contenido no es de\
+            \ tipo serie este array estará vacío y no contendrá información útil).\
+            \ Este atributo se ha definido como un array de objetos, en el cual cada\
+            \ posición almacenará la información referente a una temporada, es decir,\
+            \ numeroTemporada y episodios"
+          items:
+            $ref: '#/components/schemas/Temporadas_inner'
+          title: temporadas
+          type: array
+        genero:
+          description: "Temática en la que puede clasificarse el contenido multimedia\
+            \ (Horror, comedia, romance, fantasía…)"
+          enum:
+          - horror
+          - aventura
+          - comedia
+          - thriller
+          - drama
+          - romance
+          - fantasia
+          - ciencia ficcion
+          example: drama
+          title: genero
+          type: string
+        director:
+          description: Responsable principal encargado de dirigir la filmación o rodaje
+            del contenido en términos artísticos
+          example: Mark Mylod
+          title: director
+          type: string
+        elenco:
+          description: "Conjunto de personas, normalmente los actores y actrices principales,\
+            \ que han participado en la producción y grabación del contenido"
+          example: "Brian Cox, Jeremy Strong, Sarah Snook, Kieran Culkin, Hiam Abbass"
+          items:
+            type: string
+          title: elenco
+          type: array
+        imagen:
+          description: Fotografía representativa del contenido multimedia
+          items:
+            type: string
+          title: imagen
+          type: array
+          xml:
+            wrapped: true
+      title: Contenido
+      type: object
+    Temporadas:
+      description: "Conjunto de temporadas que conforman la serie (solo en el caso\
+        \ de que el contenido sea de tipo serie. Si el contenido no es de tipo serie\
+        \ este array estará vacío y no contendrá información útil). Este atributo\
+        \ se ha definido como un array de objetos, en el cual cada posición almacenará\
+        \ la información referente a una temporada, es decir, numeroTemporada y episodios"
+      items:
+        $ref: '#/components/schemas/Temporadas_inner'
+      title: temporadas
+      type: array
+    Episodios:
+      description: "Listado de episodios que conforman la temporada a la que se está\
+        \ accediendo en el array. Este atributo se ha definido como un array de objetos,\
+        \ en el cual cada posición almacenará la información referente a un episodio\
+        \ de la temporada actual, es decir, numeroEpisodio, tituloEpisodio y duracionEpisodio"
+      items:
+        $ref: '#/components/schemas/Episodios_inner'
+      title: Episodios
+      type: array
+    Temporadas_inner:
+      example:
+        episodios:
+        - tituloEpisodio: Celebration
+          numeroEpisodio: 5
+          duracionEpisodio: 60
+        - tituloEpisodio: Celebration
+          numeroEpisodio: 5
+          duracionEpisodio: 60
+        numeroTemporada: 1
+      properties:
+        numeroTemporada:
+          description: Identifica el número de la temporada almacenada en la posición
+            actual del array
+          example: 1
+          title: numeroTemporada
+          type: integer
+        episodios:
+          description: "Listado de episodios que conforman la temporada a la que se\
+            \ está accediendo en el array. Este atributo se ha definido como un array\
+            \ de objetos, en el cual cada posición almacenará la información referente\
+            \ a un episodio de la temporada actual, es decir, numeroEpisodio, tituloEpisodio\
+            \ y duracionEpisodio"
+          items:
+            $ref: '#/components/schemas/Episodios_inner'
+          title: Episodios
+          type: array
+      title: Temporadas_inner
+      type: object
+    Episodios_inner:
+      example:
+        tituloEpisodio: Celebration
+        numeroEpisodio: 5
+        duracionEpisodio: 60
+      properties:
+        numeroEpisodio:
+          description: Identifica el número del episodio en la temporada a la que
+            se está accediendo
+          example: 5
+          title: numeroEpisodio
+          type: integer
+        tituloEpisodio:
+          description: Nombre del episodio
+          example: Celebration
+          title: tituloEpisodio
+          type: string
+        duracionEpisodio:
+          description: Intervalo de tiempo en minutos que transcurre entre el comienzo
+            y el fin del episodio
+          example: 60
+          title: duracionEpisodio
+          type: integer
+      title: Episodios_inner
+      type: object
