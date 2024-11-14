@@ -129,9 +129,25 @@ def get_all_vista():  # noqa: E501
     :rtype: Union[List[Vista], Tuple[List[Vista], int], Tuple[List[Vista], int, Dict[str, str]]
     """
     vistas = Vistas.query.all()
-    vistas_dict = [vista.to_dict() for vista in vistas]
+    vistas_con_contenidos = []
+    for vista in vistas:
+        contenidos = []
+        for id in vista.contenidos_ids:
+            url = f'http://127.0.0.1:8080/contenido/{id}'
+            response = requests.get(url)
+            if response.status_code == 200:
+                contenidos.append(response.json())
+            else:
+                print(f"Error al recuperar el contenido con id {id}: {response.status_code}")
+        vistas_dict = {
+            "id_vista": vista.id_vista,
+            "nombre_vista": vista.nombre_vista,
+            "contenidos_ids": vista.contenidos_ids,
+            "contenidos": contenidos
+        }
+        vistas_con_contenidos.append(vistas_dict)
 
-    return vistas_dict
+    return vistas_con_contenidos
 
 
 def get_contenidos_vista(id_vista):  # noqa: E501
@@ -168,9 +184,14 @@ def get_vista_by_id(id_vista):  # noqa: E501
     :rtype: Union[Vista, Tuple[Vista, int], Tuple[Vista, int, Dict[str, str]]
     """
     vista = Vistas.query.get_or_404(id_vista)
-    vista = vista.to_dict()
+    vistas_dict = {
+        "id_vista": vista.id_vista,
+        "nombre_vista": vista.nombre_vista,
+        "contenidos_ids": vista.contenidos_ids,
+        "contenidos": get_contenidos_vista(id_vista)
+    }
 
-    return vista    
+    return vistas_dict    
 
 
 def get_vista_by_nombre(nombre_vista):  # noqa: E501
@@ -183,9 +204,13 @@ def get_vista_by_nombre(nombre_vista):  # noqa: E501
 
     :rtype: Union[Vista, Tuple[Vista, int], Tuple[Vista, int, Dict[str, str]]
     """
-    vistas = Vistas.query.filter_by(nombre_vista=nombre_vista).all()
-    print(vistas)
-    vistas_dict = [vista.to_dict() for vista in vistas]
+    vista = Vistas.query.filter_by(nombre_vista=nombre_vista).first()
+    vistas_dict = {
+        "id_vista": vista.id_vista,
+        "nombre_vista": vista.nombre_vista,
+        "contenidos_ids": vista.contenidos_ids,
+        "contenidos": get_contenidos_vista(vista.id_vista)
+    }
 
     return vistas_dict
 
