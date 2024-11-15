@@ -16,8 +16,15 @@ app.add_api('openapi.yaml',
             arguments={'title': 'Microservicio de Contenidos de una aplicación de tipo Netflix'},
             pythonic_params=True)
 
-app.app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5432/Vistas'
+app.app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5433/Vistas'
 app.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_size': 30,        # Tamaño máximo de conexiones en el pool
+    'pool_timeout': 30,     # Tiempo máximo de espera para obtener una conexión
+    'pool_recycle': 180,   # Tiempo máximo de vida de una conexión (en segundos)
+    'max_overflow': 5       # Conexiones extra que pueden crearse si se alcanza el pool_size
+}
+# hola 
 
 db = SQLAlchemy(app.app)
 
