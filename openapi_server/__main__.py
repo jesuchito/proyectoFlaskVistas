@@ -8,6 +8,7 @@ from openapi_server.models.vista import import_db
 
 from flask_cors import CORS
 
+# commit test
 app = connexion.App(__name__, specification_dir='./openapi/')
 CORS(app.app)
 app.app.json_encoder = encoder.JSONEncoder
