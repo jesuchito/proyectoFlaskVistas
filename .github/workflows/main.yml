@@ -35,7 +35,7 @@ jobs:
 
       - name: Run Docker container in the background
         run: |
-          docker run -d -p 8080:8080 openapi-server
+          docker run -d -p 8082:8082 openapi-server
 
       - name: Wait for server to start
         run: |
