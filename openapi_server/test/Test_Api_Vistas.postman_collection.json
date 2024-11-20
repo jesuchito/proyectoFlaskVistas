@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "fc01de1b-987b-462e-bc84-a434610a3c44",
+		"name": "Test_Api_Vistas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39514666"
+	},
+	"item": [
+		{
+			"name": "Retorna todo el catalago de vistas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8082/vista"
+			},
+			"response": []
+		},
+		{
+			"name": "Crea una nueva vista",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Mi primera vista\",\n    \"contenidos_ids\": [1, 2, 3]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8082/vista"
+			},
+			"response": []
+		},
+		{
+			"name": "Elimina una vista del sistema segun su identificador",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:8082/vista/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Retorna una vista en concreto recibiendo como input su i",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8082/vista/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualiza una vista en el sistema",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre_vista\": \"Vista actualizada\",\n    \"contenidos_ids\": [4, 5, 6]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8082/vista/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Retorna el conjunto de contenidos multimedia favoritos de la vista         en función de su identificador",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8082/vista/1/contenidos"
+			},
+			"response": []
+		},
+		{
+			"name": "Retorna una vista en concreto recibiendo como input su nombre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8082/vista/Mi primera vista"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualiza una vista en el sistema",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre_vista\": \"Vista actualizada\",\n    \"contenidos_ids\": [4, 5, 6]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8082/vista/Mi primera vista"
+			},
+			"response": []
+		},
+		{
+			"name": "Elimina una vista del sistema segun su nombre",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:8082/vista/Mi primera vista"
+			},
+			"response": []
+		}
+	]
+}
