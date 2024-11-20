@@ -13,7 +13,7 @@ def import_db_controller(database):
     global db
     db = database
 
-def add_vista(vista):  # noqa: E501
+def add_vista():  # noqa: E501
     """Crear una nueva vista
 
     Crea una nueva vista # noqa: E501
@@ -231,7 +231,7 @@ def update_vista_by_nombre(nombre_vista):  # noqa: E501
         if not data:
             return {"error": "No data provided"}, 400  # Código 400: No se proporcionaron datos
 
-        vista = Vistas.query.filter_by(nombre_vista=nombre_vista).first()
+        vista = db.session.query(Vistas).filter_by(nombre_vista=nombre_vista).first()
 
         if 'nombre_vista' in data:
             vista.nombre_vista = data['nombre_vista']
@@ -264,13 +264,14 @@ def updatevista(id_vista):  # noqa: E501
         if not data:
             return {"error": "No data provided"}, 400  # Código 400: No se proporcionaron datos
 
-        vista = Vistas.query.get_or_404(id_vista)
+        vista = db.session.query(Vistas).get(id_vista)
 
         if 'nombre_vista' in data:
             vista.nombre_vista = data['nombre_vista']
         if 'contenidos_ids' in data:
             vista.contenidos_ids = data['contenidos_ids']
-
+            
+    
         db.session.commit()
 
         return vista.to_dict(), 200
