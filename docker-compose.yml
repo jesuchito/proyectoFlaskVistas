@@ -1,0 +1,32 @@
+
+services:
+  db:
+    image: postgres:latest
+    container_name: api_vistas
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: Vistas
+    ports:
+      - "5435:5432"
+    volumes:
+      - db_data:/var/lib/postgresql-/data      
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - flask_network  # Conectar a la red compartida
+
+  api_vistas:
+    build:
+      context: .
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+    networks:
+      - flask_network  # Conectar a la misma red compartida
+
+volumes:
+  db_data: 
+networks:
+  flask_network: # Usando la red compartida
+    external: true  # Hace referencia a una red externa creada anteriorment
