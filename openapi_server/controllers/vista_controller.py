@@ -128,7 +128,8 @@ def get_all_vista():  # noqa: E501
 
     :rtype: Union[List[Vista], Tuple[List[Vista], int], Tuple[List[Vista], int, Dict[str, str]]
     """
-    vistas = Vistas.query.all()
+    vistas = db.session.query(Vistas).all()
+
     vistas_con_contenidos = []
     for vista in vistas:
         contenidos = []
@@ -160,7 +161,8 @@ def get_contenidos_vista(id_vista):  # noqa: E501
 
     :rtype: Union[List[Contenido], Tuple[List[Contenido], int], Tuple[List[Contenido], int, Dict[str, str]]
     """
-    vista = Vistas.query.get_or_404(id_vista)
+    vista = db.session.query(Vistas).get(id_vista)
+
     contenidos = []
     for id in vista.contenidos_ids:
         url = f'http://127.0.0.1:8080/contenido/{id}'
@@ -183,7 +185,8 @@ def get_vista_by_id(id_vista):  # noqa: E501
 
     :rtype: Union[Vista, Tuple[Vista, int], Tuple[Vista, int, Dict[str, str]]
     """
-    vista = Vistas.query.get_or_404(id_vista)
+    vista = db.session.query(Vistas).get(id_vista)
+    
     vistas_dict = {
         "id_vista": vista.id_vista,
         "nombre_vista": vista.nombre_vista,
@@ -204,7 +207,8 @@ def get_vista_by_nombre(nombre_vista):  # noqa: E501
 
     :rtype: Union[Vista, Tuple[Vista, int], Tuple[Vista, int, Dict[str, str]]
     """
-    vista = Vistas.query.filter_by(nombre_vista=nombre_vista).first()
+    vista = db.session.query(Vistas).filter_by(nombre_vista=nombre_vista).first()
+
     vistas_dict = {
         "id_vista": vista.id_vista,
         "nombre_vista": vista.nombre_vista,
