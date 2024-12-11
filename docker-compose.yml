@@ -1,7 +1,7 @@
 
 services:
   db:
-    image: postgres:latest
+    image: postgres:17
     container_name: api_vistas
     environment:
       POSTGRES_USER: postgres
