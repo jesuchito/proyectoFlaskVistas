@@ -17,3 +17,4 @@ class JSONEncoder(FlaskJSONEncoder):
                 dikt[attr] = value
             return dikt
         return FlaskJSONEncoder.default(self, o)
+
