@@ -7,6 +7,11 @@ from flask import jsonify
 
 import requests
 
+#constantes de las Url :
+API_CONTENIDOS = "proyectoflaskcontenidos-api_contenidos-1:8080"
+API_USUARIOS = "proyectoflaskusuarios-api_usuarios-1:8081"
+
+
 db = SQLAlchemy()
 
 def import_db_controller(database):
@@ -134,7 +139,7 @@ def get_all_vista():  # noqa: E501
     for vista in vistas:
         contenidos = []
         for id in vista.contenidos_ids:
-            url = f'http://127.0.0.1:8080/contenido/{id}'
+            url = f'http://{API_CONTENIDOS}/contenido/{id}'
             response = requests.get(url)
             if response.status_code == 200:
                 contenidos.append(response.json())
@@ -165,7 +170,7 @@ def get_contenidos_vista(id_vista):  # noqa: E501
 
     contenidos = []
     for id in vista.contenidos_ids:
-        url = f'http://127.0.0.1:8080/contenido/{id}'
+        url = f'http://{API_CONTENIDOS}/contenido/{id}'
         response = requests.get(url)
         if response.status_code == 200:
             contenidos.append(response.json())

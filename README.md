@@ -76,7 +76,11 @@ Python 3.5.2+
 
 2. Configuración del entorno
  * Asegúrate de tener PostgreSQL corriendo y configurado en tu entorno local o usa un servicio en la nube .
+<<<<<<< HEAD
  * Nombra tu base de datos como Contenidos 
+=======
+ * Nombra tu base de datos como Vistas
+>>>>>>> b3eb0104767d52429b438f9fdbd1d44a12f77d92
  * Para inicializar las tablas la base de datos y el contenido de esta, asegúrate de ejecutar las query definidas en el archivo Init.sql para crear las tablas y estructuras necesaria
 
 3. Para ejecutar la Api Contenidos , ejecute lo siguiente desde el directorio raíz
@@ -104,8 +108,57 @@ http://localhost:8080/openapi.json
 ```
 
 ## Despliegue en Docker 
+<<<<<<< HEAD
+=======
+
+Este documento describe los pasos necesarios para desplegar una API dentro de un contenedor Docker utilizando `docker-compose`.
+
+---
+
+### Requisitos previos
+
+1. **Docker**: Asegúrate de tener instalado Docker en tu sistema. Puedes descargarlo desde [Docker](https://www.docker.com/).
+2. **docker-compose**: Comprueba que tienes instalado `docker-compose`. Si no, sigue las instrucciones de instalación [aquí](https://docs.docker.com/compose/install/).
+
+---
+
+### Pasos para el despliegue
+
+### Paso 1: Crear una red en Docker
+
+Antes de desplegar la API, necesitas crear una red específica para el proyecto. Esto permitirá que los contenedores se comuniquen entre sí.
+
+Ejecuta el siguiente comando en la terminal:
+>>>>>>> b3eb0104767d52429b438f9fdbd1d44a12f77d92
 
 Para desplegar la API en un contenedor Docker , Ejecute el siguiente comando 
 ```bash
+<<<<<<< HEAD
 # Construir e iniciar la imagen y el contenedor
 docker-compose up --build
+=======
+docker network create flask_network
+```
+
+### Paso 2: Construir e iniciar la API
+
+Para construir la imagen de Docker y poner en marcha los contenedores, sigue los pasos a continuación:
+
+Desde el directorio donde se encuentra el archivo `docker-compose.yml`, ejecuta el siguiente comando para construir las imágenes y levantar los contenedores:
+
+```bash
+docker-compose up --build
+```
+
+### Paso 3. Verificar el despliegue
+Una vez que los contenedores estén en funcionamiento, puedes verificar el estado de los servicios con el siguiente comando:
+
+```bash
+docker ps
+```
+
+## ¡Todo listo! 🚀
+
+Tu API ahora está en funcionamiento dentro de un contenedor Docker, junto con su base de datos y otros servicios asociados.
+
+>>>>>>> b3eb0104767d52429b438f9fdbd1d44a12f77d92
